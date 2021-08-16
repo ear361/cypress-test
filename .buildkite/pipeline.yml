@@ -1,8 +1,22 @@
+#steps:
+#  - label: ":test: Test"
+#    command: |
+#      apt-get update
+#      apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb nodejs npm
+#      npm install cypress --save-dev
+#      npx cypress run --record --key 263df396-9dbd-467d-8e9e-bdf5396e36e3  --parallel --ci-build-id $BUILDKITE_BUILD_ID
+#
 steps:
-  - label: ":test: Test"
-    command: |
-      apt-get update
-      apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb nodejs npm
-      npm install cypress --save-dev
-      npx cypress run --record --key 263df396-9dbd-467d-8e9e-bdf5396e36e3  --parallel --ci-build-id $BUILDKITE_BUILD_ID
-
+  - label: 'Test'
+    parallelism: 2
+    plugins:
+      - docker-compose#3.0.3:
+        run: app
+        command: $(npm bin)/knapsack-pro-cypress
+        config: docker-compose.test.yml
+        env:
+          - BUILDKITE_PARALLEL_JOB_COUNT
+          - BUILDKITE_PARALLEL_JOB
+          - BUILDKITE_BUILD_NUMBER
+          - BUILDKITE_COMMIT
+          - BUILDKITE_BRANCH
