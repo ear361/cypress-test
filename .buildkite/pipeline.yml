@@ -8,15 +8,8 @@
 #
 steps:
   - label: 'Test'
-    parallelism: 2
+    command: $(npm bin)/knapsack-pro-cypress
+    parallelism: 5
     plugins:
       - docker-compose#3.0.3:
-        run: app
-        command: $(npm bin)/knapsack-pro-cypress
-        config: docker-compose.test.yml
-        env:
-          - BUILDKITE_PARALLEL_JOB_COUNT
-          - BUILDKITE_PARALLEL_JOB
-          - BUILDKITE_BUILD_NUMBER
-          - BUILDKITE_COMMIT
-          - BUILDKITE_BRANCH
+          run: app
