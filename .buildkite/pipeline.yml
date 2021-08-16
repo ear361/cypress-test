@@ -1,7 +1,9 @@
 steps:
   - label: ":test: Test"
     parallelism: 5
-    command: $(npm bin)/knapsack-pro-cypress
+    command: |
+      npm install --save-dev @knapsack-pro/cypress
+      $(npm bin)/knapsack-pro-cypress
 
 #steps:
 #  - label: 'Test'
